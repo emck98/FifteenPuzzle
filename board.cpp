@@ -64,7 +64,7 @@ void Board::up() {
 
     int pos = blankPosition(this->state);
 
-    if (pos > 12) {
+    if (pos > 11) {
         return;
     }
     else {
