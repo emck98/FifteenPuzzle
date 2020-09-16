@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <conio.h>
 
 
 #define KEY_UP 72
@@ -34,7 +35,7 @@ int main() {
         std::cout << "Press Q to quit and W, A, S, or D to move.\n";
         testerBoard.printBoard();
 
-        ch = getch();
+        ch = std::getch();
 
         if (testerBoard.isSolved()) {
             std::cout << "Game over, you won! \n";
