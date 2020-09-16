@@ -34,7 +34,7 @@ int main() {
         std::cout << "Press Q to quit and W, A, S, or D to move.\n";
         testerBoard.printBoard();
 
-        ch = std::getch();
+        ch = getch();
 
         if (testerBoard.isSolved()) {
             std::cout << "Game over, you won! \n";
