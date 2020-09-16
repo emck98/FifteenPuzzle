@@ -4,13 +4,6 @@
 
 #include <stdio.h>
 #include <iostream>
-#include <conio.h>
-
-
-#define KEY_UP 72
-#define KEY_DOWN 80
-#define KEY_LEFT 75
-#define KEY_RIGHT 77
 
 
 int main() {
@@ -27,38 +20,33 @@ int main() {
     testerBoard.right();
     testerBoard.up();
 
-
-    char ch=0;
+    char ch;
     do {
 
         std::cout << "\033[2J\033[1;1H";
-        std::cout << "Press Q to quit and W, A, S, or D to move.\n";
         testerBoard.printBoard();
-
-        ch = std::getch();
-
+        
         if (testerBoard.isSolved()) {
             std::cout << "Game over, you won! \n";
             return 0;
         }
+        
+        std::cout << "Press Q to quit and W, A, S, or D to move.\n";
+        ch = std::getchar();
 
         switch(ch)  {
-            case KEY_RIGHT:
             case 'W':
             case 'w':
                 testerBoard.up();
                 break;
-            case KEY_LEFT:
             case 'A':
             case 'a':
                 testerBoard.left();
                 break;
-            case KEY_DOWN:
             case 's':
             case 'S':
                 testerBoard.down();
                 break;
-            case KEY_UP:
             case 'D':
             case 'd':
                 testerBoard.right();
