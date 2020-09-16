@@ -23,9 +23,11 @@ int main() {
 
 
     char ch=0;
-    std::cout << "Press Q to quit and W, A, S, or D to move.\n";
-    testerBoard.printBoard();
-    while (ch != 'Q' && ch!='q') {
+    do {
+
+        std::cout << "\033[2J\033[1;1H";
+        std::cout << "Press Q to quit and W, A, S, or D to move.\n";
+        testerBoard.printBoard();
 
         ch = std::getchar();
 
@@ -38,27 +40,23 @@ int main() {
             case 'W':
             case 'w':
                 testerBoard.up();
-                testerBoard.printBoard();
                 break;
             case 'A':
             case 'a':
                 testerBoard.left();
-                testerBoard.printBoard();
                 break;
             case 's':
             case 'S':
                 testerBoard.down();
-                testerBoard.printBoard();
                 break;
             case 'D':
             case 'd':
                 testerBoard.right();
-                testerBoard.printBoard();
                 break;
 
         }
 
-    }
+    } while (ch != 'Q' && ch!='q');
   
     return 0;
 }
