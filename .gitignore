@@ -1,2 +1,4 @@
-./vsvode
+.vscode/
 .DS_Store
+*.o
+fifteen
