@@ -5,20 +5,17 @@
 #include <chrono>      
 
 
-int sorted_tester [16] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0};
-
 std::array<int, 16> sorted_array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0}; 
 
-Board::Board() {
-    state = sorted_tester;
-    state2 = sorted_array;
-}
+Board::Board()
+: state(sorted_array)
+{}
 
 void Board::printBoard() {
 
     std::system("clear");
 
-    std::array<int, SIZE>  arr = this->state2;
+    std::array<int, SIZE> arr = this->state;
 
     printBorder();
 
@@ -70,56 +67,56 @@ void Board::printBoard() {
 
 void Board::down() {
 
-    int pos = blankPosition(this->state2);
+    int pos = blankPosition(this->state);
 
     if (pos < 4) {
         return;
     }
     else {
-        state2[pos] = state2[pos - 4];
-        state2[pos - 4] = 0;
+        state[pos] = state[pos - 4];
+        state[pos - 4] = 0;
     }
     
 }
 
 void Board::up() {
 
-    int pos = blankPosition(this->state2);
+    int pos = blankPosition(this->state);
 
     if (pos > 11) {
         return;
     }
     else {
-        state2[pos] = state2[pos + 4];
-        state2[pos + 4] = 0;
+        state[pos] = state[pos + 4];
+        state[pos + 4] = 0;
     }
     
 }
 
 void Board::right() {
 
-    int pos = blankPosition(this->state2);
+    int pos = blankPosition(this->state);
 
     if (pos % 4 == 0) {
         return;
     }
     else {
-        state2[pos] = state2[pos - 1];
-        state2[pos - 1] = 0;
+        state[pos] = state[pos - 1];
+        state[pos - 1] = 0;
     }
     
 }
 
 void Board::left() {
 
-    int pos = blankPosition(this->state2);
+    int pos = blankPosition(this->state);
 
     if (pos % 4 == 3) {
         return;
     }
     else {
-        state2[pos] = state2[pos + 1];
-        state2[pos + 1] = 0;
+        state[pos] = state[pos + 1];
+        state[pos + 1] = 0;
     }
     
 }
@@ -128,26 +125,26 @@ void Board::randomize() {
     
     std::array<int, 16> randomized_array = {2, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0}; 
 
-    this->state2 = randomized_array;
+    this->state = randomized_array;
 
     std::random_device rd;
     std::mt19937 rand_gen(rd());
 
     std::shuffle(randomized_array.begin(), randomized_array.end(), rand_gen);
 
-    this->state2 = randomized_array;
+    this->state = randomized_array;
     
-    if (!isValid15(this->state2)) {
+    if (!isValid15(this->state)) {
         this->correct();
     }
 
 }
 
 void Board::correct() {
-    if (!isValid15(this->state2)) {
-        int temp = this->state2[0];
-        this->state2[0] = this->state2[15];
-        this->state2[15] = temp;
+    if (!isValid15(this->state)) {
+        int temp = this->state[0];
+        this->state[0] = this->state[15];
+        this->state[15] = temp;
     }
 }
 
@@ -156,7 +153,7 @@ bool Board::isSolved() {
     
 
     for (int i = 0; i < SIZE; i++) {
-        if (sol[i] != this->state2[i]) {
+        if (sol[i] != this->state[i]) {
             return false;
         }
     }
@@ -208,9 +205,7 @@ int blankRow(std::array<int, SIZE> state) {
     return blankPosition(state)/4 + 1;
 }
 
-std::string blankRowString = "|   |   |   |   |";
 std::string border =         "+---+---+---+---+";
-
 
 void printBorder() {
     std::cout << border << "\n";

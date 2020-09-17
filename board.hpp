@@ -7,8 +7,7 @@
 
 class Board {
     private:
-        int * state;
-        std::array<int, SIZE> state2;
+        std::array<int, SIZE> state;
         
 
     public:
