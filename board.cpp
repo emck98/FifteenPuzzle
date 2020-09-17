@@ -105,14 +105,13 @@ void Board::correct() {
 }
 
 bool Board::isSolved() {
-    int sol [16] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0};
     
-    for (int i = 0; i < SIZE; i++) {
-        if (sol[i] != this->state[i]) {
+    for (int i = 0; i < SIZE - 1; i++) {
+        if (i+1 != this->state[i]) {
             return false;
         }
     }
-    return true;
+    return this->state[SIZE] == 0;
 }
 
 
