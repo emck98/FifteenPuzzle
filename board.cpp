@@ -137,10 +137,17 @@ void Board::randomize() {
  
     this->state2 = randomized_array;
 
+    std::random_device rd;
+    std::mt19937 rand_gen(rd());
+
+    std::shuffle(randomized_array.begin(), randomized_array.end(), rand_gen);
+
     // int seed;
     // srand(seed);
     //std::shuffle(randomized_array.begin(), randomized_array.end(), std::mt19937(seed));
 
+    this->state2 = randomized_array;
+    
     if (!isValid15(this->state2)) {
         this->correct();
     }
