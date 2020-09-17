@@ -1,4 +1,3 @@
-#include "hello.hpp"
 #include "board.hpp"
 #include "row.hpp"
 
