@@ -13,7 +13,7 @@ std::string border = "+---+---+---+---+";
 void Board::printBoard() {
 
     int * arr = this->state;
-    
+
     printBorder();
 
     std::string one = "|   |   |   |   |";
@@ -167,18 +167,6 @@ int boardInversions(int * state) {
     return inversions;
 }
 
-int blankRow(int* state) {
-    int row = -1;
-
-    for (int i = 0; i < 16; i++) {
-       if (state[i] == 0) {
-           row = i/4 + 1;
-           break;
-       } 
-    }
-    return row;
-}
-
 int blankPosition(int* state) {
 
     for (int i = 0; i < 16; i++) {
@@ -189,33 +177,16 @@ int blankPosition(int* state) {
     return -1;
 }
 
+int blankRow(int* state) {
+    return blankPosition(state)/4 + 1;
+}
+
+
+// Printing Functions
+
 std::string blankRowString = "|   |   |   |   |";
 std::string border = "+---+---+---+---+";
 
-// Row::Row() {
-//     first = 0;
-//     second = 0;
-//     third = 0;
-//     fourth = 0;
-// }
-
-// Row::Row(int a, int b, int c, int d) {
-//     first = a;
-//     second = b;
-//     third = c;
-//     fourth = d;
-// }
-
-// void Row::printRow() {
-//     std::string newRow = "|   |   |   |   |";
-
-//     newRow[2] = intToChar(this->first); 
-//     newRow[6] = intToChar(this->second); 
-//     newRow[10] = intToChar(this->third); 
-//     newRow[14] = intToChar(this->fourth); 
-
-//     std::cout << newRow << "\n";
-// }
 
 void printBorder() {
     std::cout << border << "\n";
