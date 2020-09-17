@@ -10,15 +10,6 @@ int main() {
 
     testerBoard.randomize();
 
-    // testerBoard.correct();
-    // testerBoard.right();
-    // testerBoard.right();
-    // testerBoard.down();
-    // testerBoard.left();
-    // testerBoard.down();
-    // testerBoard.right();
-    // testerBoard.up();
-
     char ch;
     do {
 
