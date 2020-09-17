@@ -5,10 +5,19 @@
 #include <chrono>      
 
 
-Board::Board()
-{
+Board::Board(int height, int width)
+: state(std::vector<int> (height*width)), height(height), width(width) {
+    
     std::iota(this->state.begin(), this->state.end(), 0);
     this->randomize();
+}
+
+void Board::printBorder() {
+    
+    for (int i = 0; i < this->width; i++) {
+        std::cout << "+---";
+    }
+    std::cout << "+" << std::endl;
 }
 
 void Board::printBoard() {
@@ -16,9 +25,12 @@ void Board::printBoard() {
     std::system("clear");
     printBorder();
 
-    for (int i = 0; i < HEIGHT; i++) {
-        for (int j = 0; j < WIDTH; j++)
-            std::cout << "| " << intToChar(this->state[i * WIDTH + j]) << " ";
+    for (int i = 0; i < this->height; i++) {
+        for (int j = 0; j < this->width; j++) {
+            std::cout << "| ";
+            std::cout << intToChar(this->state[i * this->width + j]);
+            std::cout << " ";
+        }
         std::cout << "|" << std::endl;
         printBorder();
     }
@@ -28,12 +40,12 @@ void Board::down() {
 
     int pos = blankPosition(this->state);
 
-    if (pos < WIDTH) {
+    if (pos < this->width) {
         return;
     }
     else {
-        state[pos] = state[pos - WIDTH];
-        state[pos - WIDTH] = 0;
+        state[pos] = state[pos - this->width];
+        state[pos - this->width] = 0;
     }
     
 }
@@ -42,12 +54,12 @@ void Board::up() {
 
     int pos = blankPosition(this->state);
 
-    if (pos > SIZE - WIDTH - 1) {
+    if (pos > this->state.size() - this->width - 1) {
         return;
     }
     else {
-        state[pos] = state[pos + WIDTH];
-        state[pos + WIDTH] = 0;
+        state[pos] = state[pos + this->width];
+        state[pos + this->width] = 0;
     }
     
 }
@@ -56,7 +68,7 @@ void Board::right() {
 
     int pos = blankPosition(this->state);
 
-    if (pos % WIDTH == 0) {
+    if (pos % this->width == 0) {
         return;
     }
     else {
@@ -70,7 +82,7 @@ void Board::left() {
 
     int pos = blankPosition(this->state);
 
-    if (pos % WIDTH == WIDTH - 1) {
+    if (pos % this->width == this->width - 1) {
         return;
     }
     else {
@@ -84,40 +96,39 @@ void Board::randomize() {
 
     std::random_device rd;
     std::mt19937 rand_gen(rd());
-
     std::shuffle(this->state.begin(), this->state.end(), rand_gen);
     
-    if (!isValid15(this->state)) {
+    if (!isValid(this->state)) {
         this->correct();
     }
 
 }
 
 void Board::correct() {
-    if (!isValid15(this->state)) {
+    
+    if (!isValid(this->state)) {
         int temp = this->state[0];
-        this->state[0] = this->state[SIZE - 1];
-        this->state[SIZE - 1] = temp;
+        this->state[0] = this->state[this->state.size() - 1];
+        this->state[this->state.size() - 1] = temp;
     }
 }
 
 bool Board::isSolved() {
     
-    for (int i = 0; i < SIZE - 1; i++) {
+    for (int i = 0; i < this->state.size() - 1; i++) {
         if (i+1 != this->state[i]) {
             return false;
         }
     }
-    return this->state[SIZE - 1] == 0;
+    return this->state[this->state.size() - 1] == 0;
 }
-
 
 
 /*
     "STATIC" METHODS
  */
 
-bool isValid15(std::array<int, SIZE> state) {
+bool isValid(std::vector<int> state) {
 
     if (boardInversions(state) % 2 == 0) {
         if (blankRow(state) % 2 == 0) {
@@ -132,11 +143,11 @@ bool isValid15(std::array<int, SIZE> state) {
     return false;
 }
 
-int boardInversions(std::array<int, SIZE> state) {
+int boardInversions(std::vector<int> state) {
     int inversions = 0;
     
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = i + 1 ; j < SIZE; j++) {
+    for (int i = 0; i < state.size(); i++) {
+        for (int j = i + 1 ; j < state.size(); j++) {
             if (state[i] > state[j]) {
                 if (state[i] * state[j] !=0) {
                     inversions++;
@@ -147,9 +158,9 @@ int boardInversions(std::array<int, SIZE> state) {
     return inversions;
 }
 
-int blankPosition(std::array<int, SIZE> state) {
+int blankPosition(std::vector<int> state) {
 
-    for (int i = 0; i < SIZE; i++) {
+    for (int i = 0; i < state.size(); i++) {
        if (state[i] == 0) {
            return i;
        } 
@@ -157,14 +168,8 @@ int blankPosition(std::array<int, SIZE> state) {
     return -1;
 }
 
-int blankRow(std::array<int, SIZE> state) {
+int blankRow(std::vector<int> state) {
     return blankPosition(state)/WIDTH + 1;
-}
-
-std::string border =         "+---+---+---+---+";
-
-void printBorder() {
-    std::cout << border << std::endl;
 }
 
 char intToChar(int tile) {
@@ -173,12 +178,8 @@ char intToChar(int tile) {
         return ' ';
     else if (tile < 10)
         return tile + '0';
-    else if (tile < SIZE)
+    else if (tile > 0)
         return 'A' + tile - 10;
     else
         return '*';
 }
-
-
-
-

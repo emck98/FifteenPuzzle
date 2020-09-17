@@ -1,20 +1,21 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
 
-#include <array> 
+#include <vector>
 
-#define SIZE 16
 #define WIDTH 4
-#define HEIGHT 4
 
 class Board {
     private:
-        std::array<int, SIZE> state;
+        std::vector<int> state;
+        int width;
+        int height;
         
 
     public:
-        Board();
+        Board(int height, int width);
         void printBoard();
+        void printBorder();
         void down();
         void up();
         void left();
@@ -25,16 +26,14 @@ class Board {
 
 };
 
-bool isValid15(std::array<int, SIZE> state);
+bool isValid(std::vector<int> state);
 
-int boardInversions(std::array<int, SIZE> state);
+int boardInversions(std::vector<int> state);
 
-int blankRow(std::array<int, SIZE> state);
+int blankRow(std::vector<int> state);
 
-int blankPosition(std::array<int, SIZE> state);
+int blankPosition(std::vector<int> state);
 
 char intToChar(int tile);
-
-void printBorder();
 
 #endif /* BOARD_HPP */

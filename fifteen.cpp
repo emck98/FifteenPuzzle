@@ -6,7 +6,7 @@
 
 int main() {
 
-    Board testerBoard;
+    Board testerBoard(4, 4);
 
     char ch;
     do {
