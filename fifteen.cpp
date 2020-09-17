@@ -4,12 +4,6 @@
 #include <iostream>
 
 
-#define KEY_UP 72
-#define KEY_DOWN 80
-#define KEY_LEFT 75
-#define KEY_RIGHT 77
-
-
 int main() {
 
     Board testerBoard(4, 4);
@@ -27,9 +21,7 @@ int main() {
 
         std::cout << "\033[2J\033[1;1H";
         testerBoard.printBoard();
-
-        ch = std::getchar();
-
+        
         if (testerBoard.isSolved()) {
             std::cout << "Game over, you won! \n";
             return 0;
