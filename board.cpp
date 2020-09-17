@@ -1,32 +1,12 @@
 #include "board.hpp"
 #include <iostream>
 
-// Board::Board() {
-
-//     // state = NULL;
-
-//     // this->rowOne = Row(1, 2, 3, 4);
-//     // this->rowTwo = Row(5, 6, 7, 8);
-//     // this->rowThree = Row(9, 10, 11, 12);
-//     // this->rowFour = Row(13, 14, 15, 0);
-
-//     state = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 3, 14, 15, 10;
-    
-// }
 
 Board::Board(int* arr) {
     state = arr;
-
-    // this->rowOne = Row(arr[0], arr[1], arr[2], arr[3]);
-    // this->rowTwo = Row(arr[4], arr[5], arr[6], arr[7]);
-    // this->rowThree = Row(arr[8], arr[9], arr[10], arr[11]);
-    // this->rowFour = Row(arr[12], arr[13], arr[14], arr[15]);
-
 }
 
 void Board::printBoard() {
-
-
 
     int * arr = this->state;
     Row rowOne = Row(arr[0], arr[1], arr[2], arr[3]);
@@ -120,11 +100,6 @@ bool Board::isSolved() {
     }
     return true;
 }
-
-
-// A board is solvable if:
-//     the number of inversions is even AND the blank is on the 2nd or 4th row
-//     the number of inversions is odd AND the blank is on the 1st or 3rd row
 
 bool isValid15(int * state) {
 

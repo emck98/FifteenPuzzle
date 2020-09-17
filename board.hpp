@@ -6,13 +6,8 @@
 class Board {
     private:
         int * state;
-        // Row rowOne;
-        // Row rowTwo;
-        // Row rowThree;
-        // Row rowFour;
-       
+
     public:
-        // Board();
         Board(int* arr);
         void printBoard();
         void down();
