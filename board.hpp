@@ -4,6 +4,8 @@
 #include <array> 
 
 #define SIZE 16
+#define WIDTH 4
+#define HEIGHT 4
 
 class Board {
     private:

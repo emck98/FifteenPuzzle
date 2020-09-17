@@ -5,7 +5,7 @@
 #include <chrono>      
 
 
-std::array<int, 16> sorted_array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0}; 
+std::array<int, SIZE> sorted_array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0}; 
 
 Board::Board()
 : state(sorted_array)
@@ -15,66 +15,29 @@ void Board::printBoard() {
 
     std::system("clear");
 
-    std::array<int, SIZE> arr = this->state;
-
     printBorder();
 
-    std::string one = "|   |   |   |   |";
-
-    one[2] = intToChar(arr[0]);
-    one[6] = intToChar(arr[1]);
-    one[10] = intToChar(arr[2]);
-    one[14] = intToChar(arr[3]);
-
-    std::cout << one << "\n";
-
-    printBorder();
-
-    std::string two = "|   |   |   |   |";
-
-    two[2] = intToChar(arr[4]);
-    two[6] = intToChar(arr[5]);
-    two[10] = intToChar(arr[6]);
-    two[14] = intToChar(arr[7]);
-
-    std::cout << two << "\n";
-
-    printBorder();
-
-    std::string three = "|   |   |   |   |";
-
-    three[2] = intToChar(arr[8]);
-    three[6] = intToChar(arr[9]);
-    three[10] = intToChar(arr[10]);
-    three[14] = intToChar(arr[11]);
-
-    std::cout << three << "\n";
-
-    printBorder();
-
-    std::string four = "|   |   |   |   |";
-
-    four[2] = intToChar(arr[12]);
-    four[6] = intToChar(arr[13]);
-    four[10] = intToChar(arr[14]);
-    four[14] = intToChar(arr[15]);
-
-    std::cout << four << "\n";
-
-    printBorder();
-
+    for (int i = 0; i < HEIGHT; i++) {
+        for (int j = 0; j < WIDTH; j++) {
+        
+            std::cout << "| " << intToChar(this->state[i * WIDTH + j]) << " ";
+        
+        }
+        std::cout << "|" << std::endl;
+        printBorder();
+    }
 }
 
 void Board::down() {
 
     int pos = blankPosition(this->state);
 
-    if (pos < 4) {
+    if (pos < WIDTH) {
         return;
     }
     else {
-        state[pos] = state[pos - 4];
-        state[pos - 4] = 0;
+        state[pos] = state[pos - WIDTH];
+        state[pos - WIDTH] = 0;
     }
     
 }
@@ -87,8 +50,8 @@ void Board::up() {
         return;
     }
     else {
-        state[pos] = state[pos + 4];
-        state[pos + 4] = 0;
+        state[pos] = state[pos + WIDTH];
+        state[pos + WIDTH] = 0;
     }
     
 }
@@ -97,7 +60,7 @@ void Board::right() {
 
     int pos = blankPosition(this->state);
 
-    if (pos % 4 == 0) {
+    if (pos % WIDTH == 0) {
         return;
     }
     else {
@@ -111,7 +74,7 @@ void Board::left() {
 
     int pos = blankPosition(this->state);
 
-    if (pos % 4 == 3) {
+    if (pos % WIDTH == 3) {
         return;
     }
     else {
@@ -122,17 +85,11 @@ void Board::left() {
 }
 
 void Board::randomize() {
-    
-    std::array<int, 16> randomized_array = {2, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0}; 
-
-    this->state = randomized_array;
 
     std::random_device rd;
     std::mt19937 rand_gen(rd());
 
-    std::shuffle(randomized_array.begin(), randomized_array.end(), rand_gen);
-
-    this->state = randomized_array;
+    std::shuffle(this->state.begin(), this->state.end(), rand_gen);
     
     if (!isValid15(this->state)) {
         this->correct();
@@ -151,7 +108,6 @@ void Board::correct() {
 bool Board::isSolved() {
     int sol [16] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0};
     
-
     for (int i = 0; i < SIZE; i++) {
         if (sol[i] != this->state[i]) {
             return false;
@@ -202,7 +158,7 @@ int blankPosition(std::array<int, SIZE> state) {
 }
 
 int blankRow(std::array<int, SIZE> state) {
-    return blankPosition(state)/4 + 1;
+    return blankPosition(state)/WIDTH + 1;
 }
 
 std::string border =         "+---+---+---+---+";
