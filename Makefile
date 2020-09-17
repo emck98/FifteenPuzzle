@@ -1,4 +1,4 @@
-OBJECTS = fifteen.o hello.o board.o row.o
+OBJECTS = fifteen.o board.o 
 
 fifteen: $(OBJECTS)
 	g++ -o fifteen $(OBJECTS)
