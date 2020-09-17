@@ -13,15 +13,11 @@ Board::Board()
 void Board::printBoard() {
 
     std::system("clear");
-
     printBorder();
 
     for (int i = 0; i < HEIGHT; i++) {
-        for (int j = 0; j < WIDTH; j++) {
-        
+        for (int j = 0; j < WIDTH; j++)
             std::cout << "| " << intToChar(this->state[i * WIDTH + j]) << " ";
-        
-        }
         std::cout << "|" << std::endl;
         printBorder();
     }
@@ -45,7 +41,7 @@ void Board::up() {
 
     int pos = blankPosition(this->state);
 
-    if (pos > 11) {
+    if (pos > SIZE - WIDTH - 1) {
         return;
     }
     else {
@@ -73,7 +69,7 @@ void Board::left() {
 
     int pos = blankPosition(this->state);
 
-    if (pos % WIDTH == 3) {
+    if (pos % WIDTH == WIDTH - 1) {
         return;
     }
     else {
@@ -99,8 +95,8 @@ void Board::randomize() {
 void Board::correct() {
     if (!isValid15(this->state)) {
         int temp = this->state[0];
-        this->state[0] = this->state[15];
-        this->state[15] = temp;
+        this->state[0] = this->state[SIZE - 1];
+        this->state[SIZE - 1] = temp;
     }
 }
 
@@ -111,19 +107,24 @@ bool Board::isSolved() {
             return false;
         }
     }
-    return this->state[SIZE] == 0;
+    return this->state[SIZE - 1] == 0;
 }
 
 
+
+/*
+    "STATIC" METHODS
+ */
+
 bool isValid15(std::array<int, SIZE> state) {
 
-    if (boardInversions(state)%2 == 0) {
-        if (blankRow(state)%2 == 0) {
+    if (boardInversions(state) % 2 == 0) {
+        if (blankRow(state) % 2 == 0) {
             return true;
         }
     }
     else {
-        if (blankRow(state)%2 != 0) {
+        if (blankRow(state) % 2 != 0) {
             return true;
         }
     }
@@ -133,8 +134,8 @@ bool isValid15(std::array<int, SIZE> state) {
 int boardInversions(std::array<int, SIZE> state) {
     int inversions = 0;
     
-    for (int i = 0; i < 16; i++) {
-        for (int j = i + 1 ; j < 16; j++) {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = i + 1 ; j < SIZE; j++) {
             if (state[i] > state[j]) {
                 if (state[i] * state[j] !=0) {
                     inversions++;
@@ -147,7 +148,7 @@ int boardInversions(std::array<int, SIZE> state) {
 
 int blankPosition(std::array<int, SIZE> state) {
 
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < SIZE; i++) {
        if (state[i] == 0) {
            return i;
        } 
@@ -162,10 +163,20 @@ int blankRow(std::array<int, SIZE> state) {
 std::string border =         "+---+---+---+---+";
 
 void printBorder() {
-    std::cout << border << "\n";
+    std::cout << border << std::endl;
 }
 
 char intToChar(int tile) {
+    
+    if (tile == 0)
+        return ' ';
+    else if (tile < 10)
+        return tile + '0';
+    else if (tile < SIZE)
+        return 'A' + tile - 10;
+    else
+        return '*';
+    /*
     char ret;
     switch(tile) {
         case 0:
@@ -194,6 +205,7 @@ char intToChar(int tile) {
               ret = '*';
     }
     return ret;
+     */
 }
 
 
