@@ -6,9 +6,8 @@
 
 int main() {
 
-    int tester [16] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0};
+    Board testerBoard;
 
-    Board testerBoard(tester);
     testerBoard.correct();
     testerBoard.right();
     testerBoard.right();
@@ -21,7 +20,7 @@ int main() {
     char ch;
     do {
 
-        std::cout << "\033[2J\033[1;1H";
+        //std::cout << "\033[2J\033[1;1H";
         testerBoard.printBoard();
         
         if (testerBoard.isSolved()) {
