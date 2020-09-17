@@ -5,7 +5,6 @@
 /*
 +---+---+---+---+
 |   |   |   |   |
-
 */
 
 std::string blankRow = "|   |   |   |   |";
@@ -55,7 +54,7 @@ char intToChar(int tile) {
         case 7:
         case 8:
         case 9:
-            ret = tile + 48;
+            ret = tile + '0';
             break;
         case 10:
         case 11:
@@ -63,7 +62,7 @@ char intToChar(int tile) {
         case 13:
         case 14:
         case 15:
-            ret = 65 + (tile - 10);
+            ret = 'A' + (tile - 10);
             break;
         default:
               ret = '*';
