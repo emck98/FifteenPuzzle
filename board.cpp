@@ -1,6 +1,9 @@
 #include "board.hpp"
 #include <iostream>
 #include <algorithm>
+#include <random> 
+#include <chrono>      
+
 
 int sorted_tester [16] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0};
 
@@ -122,7 +125,36 @@ void Board::left() {
 }
 
 void Board::randomize() {
-    return;
+    // obtain a time-based seed:
+
+    // unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+
+    std::array<int, 16> randomized_array = {2, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0}; 
+
+    // srand(time(0));
+
+    // shuffle(randomized_array.begin(), randomized_array.end(), std::default_random_engine(seed));
+ 
+    this->state2 = randomized_array;
+
+    // int seed;
+    // srand(seed);
+    //std::shuffle(randomized_array.begin(), randomized_array.end(), std::mt19937(seed));
+
+    if (!isValid15(this->state2)) {
+        this->correct();
+    }
+
+    // unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    
+    // _UniformRandomNumberGenerator &&__g;
+    
+    // d::default_random_engine(seed) );
+
+    // unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+
+    // std::shuffle(this->state2.begin(), this->state2.end(), std::default_random_engine(seed));
+
 }
 
 void Board::correct() {

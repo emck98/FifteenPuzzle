@@ -8,19 +8,20 @@ int main() {
 
     Board testerBoard;
 
-    testerBoard.correct();
-    testerBoard.right();
-    testerBoard.right();
-    testerBoard.down();
-    testerBoard.left();
-    testerBoard.down();
-    testerBoard.right();
-    testerBoard.up();
+    testerBoard.randomize();
+
+    // testerBoard.correct();
+    // testerBoard.right();
+    // testerBoard.right();
+    // testerBoard.down();
+    // testerBoard.left();
+    // testerBoard.down();
+    // testerBoard.right();
+    // testerBoard.up();
 
     char ch;
     do {
 
-        //std::cout << "\033[2J\033[1;1H";
         testerBoard.printBoard();
         
         if (testerBoard.isSolved()) {
