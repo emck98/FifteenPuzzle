@@ -5,23 +5,59 @@
 Board::Board(int* arr) {
     state = arr;
 }
+/*
+std::string blankRowString = "|   |   |   |   |";
+std::string border = "+---+---+---+---+";
+*/
 
 void Board::printBoard() {
 
     int * arr = this->state;
-    Row rowOne = Row(arr[0], arr[1], arr[2], arr[3]);
-    Row rowTwo = Row(arr[4], arr[5], arr[6], arr[7]);
-    Row rowThree = Row(arr[8], arr[9], arr[10], arr[11]);
-    Row rowFour = Row(arr[12], arr[13], arr[14], arr[15]);
+    
+    printBorder();
+
+    std::string one = "|   |   |   |   |";
+
+    one[2] = intToChar(arr[0]);
+    one[6] = intToChar(arr[1]);
+    one[10] = intToChar(arr[2]);
+    one[14] = intToChar(arr[3]);
+
+    std::cout << one << "\n";
 
     printBorder();
-    rowOne.printRow();
+
+    std::string two = "|   |   |   |   |";
+
+    two[2] = intToChar(arr[4]);
+    two[6] = intToChar(arr[5]);
+    two[10] = intToChar(arr[6]);
+    two[14] = intToChar(arr[7]);
+
+    std::cout << two << "\n";
+
     printBorder();
-    rowTwo.printRow();
+
+    std::string three = "|   |   |   |   |";
+
+    three[2] = intToChar(arr[8]);
+    three[6] = intToChar(arr[9]);
+    three[10] = intToChar(arr[10]);
+    three[14] = intToChar(arr[11]);
+
+    std::cout << three << "\n";
+
     printBorder();
-    rowThree.printRow();
-    printBorder();
-    rowFour.printRow();
+
+    std::string four = "|   |   |   |   |";
+
+    four[2] = intToChar(arr[12]);
+    four[6] = intToChar(arr[13]);
+    four[10] = intToChar(arr[14]);
+    four[14] = intToChar(arr[15]);
+
+    std::cout << four << "\n";
+
     printBorder();
 
 }
@@ -156,30 +192,30 @@ int blankPosition(int* state) {
 std::string blankRowString = "|   |   |   |   |";
 std::string border = "+---+---+---+---+";
 
-Row::Row() {
-    first = 0;
-    second = 0;
-    third = 0;
-    fourth = 0;
-}
+// Row::Row() {
+//     first = 0;
+//     second = 0;
+//     third = 0;
+//     fourth = 0;
+// }
 
-Row::Row(int a, int b, int c, int d) {
-    first = a;
-    second = b;
-    third = c;
-    fourth = d;
-}
+// Row::Row(int a, int b, int c, int d) {
+//     first = a;
+//     second = b;
+//     third = c;
+//     fourth = d;
+// }
 
-void Row::printRow() {
-    std::string newRow = "|   |   |   |   |";
+// void Row::printRow() {
+//     std::string newRow = "|   |   |   |   |";
 
-    newRow[2] = intToChar(this->first); 
-    newRow[6] = intToChar(this->second); 
-    newRow[10] = intToChar(this->third); 
-    newRow[14] = intToChar(this->fourth); 
+//     newRow[2] = intToChar(this->first); 
+//     newRow[6] = intToChar(this->second); 
+//     newRow[10] = intToChar(this->third); 
+//     newRow[14] = intToChar(this->fourth); 
 
-    std::cout << newRow << "\n";
-}
+//     std::cout << newRow << "\n";
+// }
 
 void printBorder() {
     std::cout << border << "\n";
