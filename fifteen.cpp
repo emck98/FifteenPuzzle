@@ -8,8 +8,6 @@ int main() {
 
     Board testerBoard;
 
-    testerBoard.randomize();
-
     char ch;
     do {
 

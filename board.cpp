@@ -8,6 +8,7 @@
 Board::Board()
 {
     std::iota(this->state.begin(), this->state.end(), 0);
+    this->randomize();
 }
 
 void Board::printBoard() {
