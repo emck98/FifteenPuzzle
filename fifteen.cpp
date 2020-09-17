@@ -1,4 +1,6 @@
+#include "hello.hpp"
 #include "board.hpp"
+#include "row.hpp"
 
 #include <stdio.h>
 #include <iostream>
@@ -6,7 +8,9 @@
 
 int main() {
 
-    Board testerBoard(4, 4);
+    int tester [16] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0};
+
+    Board testerBoard(tester);
     testerBoard.correct();
     testerBoard.right();
     testerBoard.right();

@@ -1,39 +1,35 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
 
-#include <vector>
+#include "row.hpp"
 
 class Board {
     private:
-        std::vector<int> state;
-        const int rows;
-        const int cols;
-
+        int * state;
+        // Row rowOne;
+        // Row rowTwo;
+        // Row rowThree;
+        // Row rowFour;
+       
     public:
-        Board(int rows, int cols);
+        // Board();
+        Board(int* arr);
         void printBoard();
-        void printRow(int row);
-        void printBorder();
-        bool isSolved();
-        void correct();
-        
-        // movements
         void down();
         void up();
         void left();
         void right();
-        
-            
+        void correct();
+        bool isSolved();
+
 };
 
-bool isValid15(std::vector<int> state);
+bool isValid15(int * state);
 
-int boardInversions(std::vector<int> state);
+int boardInversions(int * state);
 
-int blankRow(std::vector<int> state);
+int blankRow(int* state);
 
-int blankPosition(std::vector<int> state);
-
-char intToChar(int tile);
+int blankPosition(int* state);
 
 #endif /* BOARD_HPP */

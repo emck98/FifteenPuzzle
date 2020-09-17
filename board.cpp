@@ -1,86 +1,48 @@
 #include "board.hpp"
 #include <iostream>
-#include <numeric>
 
+// Board::Board() {
 
-char intToChar(int tile) {
-    char ret;
-    switch(tile) {
-        case 0:
-            ret = ' ';
-            break;
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
-            ret = tile + '0';
-            break;
-        case 10:
-        case 11:
-        case 12:
-        case 13:
-        case 14:
-        case 15:
-            ret = 'A' + (tile - 10);
-            break;
-        default:
-              ret = '*';
-    }
-    return ret;
-}
+//     // state = NULL;
 
+//     // this->rowOne = Row(1, 2, 3, 4);
+//     // this->rowTwo = Row(5, 6, 7, 8);
+//     // this->rowThree = Row(9, 10, 11, 12);
+//     // this->rowFour = Row(13, 14, 15, 0);
 
-Board::Board(int rows, int cols)
-: rows(rows), cols(cols), state(std::vector<int>(rows*cols)) {
+//     state = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 3, 14, 15, 10;
     
-    std::iota(this->state.begin(), this->state.end(), 0);
-    std::random_shuffle(this->state.begin(), this->state.end());
-    if (isValid15(this->state))
-        this->correct();
-}
+// }
 
-void Board::printRow(int row) {
+Board::Board(int* arr) {
+    state = arr;
 
-    std::cout << "|";
-    
-    for (int i = 0; i < this->cols; i++) {
-           
-        std::cout << " " << intToChar(this->state[this->cols * row + i]) << " |";
-    
-    }
-    
-    std::cout << std::endl;
-
-}
-
-
-void Board::printBorder() {
-
-    std::cout << "+";
-    for (int i = 0; i < this->cols; i++) {
-        
-        std::cout << "---+";
-        
-    }
-    std::cout << std::endl;
+    // this->rowOne = Row(arr[0], arr[1], arr[2], arr[3]);
+    // this->rowTwo = Row(arr[4], arr[5], arr[6], arr[7]);
+    // this->rowThree = Row(arr[8], arr[9], arr[10], arr[11]);
+    // this->rowFour = Row(arr[12], arr[13], arr[14], arr[15]);
 
 }
 
 void Board::printBoard() {
-    
-    this->printBorder();
-    
-    for (int i = 0; i < this->rows; i++) {
-        
-        this->printRow(i);
-        this->printBorder();
-        
-    }
+
+
+
+    int * arr = this->state;
+    Row rowOne = Row(arr[0], arr[1], arr[2], arr[3]);
+    Row rowTwo = Row(arr[4], arr[5], arr[6], arr[7]);
+    Row rowThree = Row(arr[8], arr[9], arr[10], arr[11]);
+    Row rowFour = Row(arr[12], arr[13], arr[14], arr[15]);
+
+    printBorder();
+    rowOne.printRow();
+    printBorder();
+    rowTwo.printRow();
+    printBorder();
+    rowThree.printRow();
+    printBorder();
+    rowFour.printRow();
+    printBorder();
 
 }
 
@@ -88,12 +50,12 @@ void Board::down() {
 
     int pos = blankPosition(this->state);
 
-    if (pos < this->cols) {
+    if (pos < 4) {
         return;
     }
     else {
-        state[pos] = state[pos - this->cols];
-        state[pos - this->cols] = 0;
+        state[pos] = state[pos - 4];
+        state[pos - 4] = 0;
     }
     
 }
@@ -102,12 +64,12 @@ void Board::up() {
 
     int pos = blankPosition(this->state);
 
-    if (pos >= this->state.size() - this->cols) {
+    if (pos > 11) {
         return;
     }
     else {
-        state[pos] = state[pos + this->cols];
-        state[pos + this->cols] = 0;
+        state[pos] = state[pos + 4];
+        state[pos + 4] = 0;
     }
     
 }
@@ -116,7 +78,7 @@ void Board::right() {
 
     int pos = blankPosition(this->state);
 
-    if (pos % this->cols == 0) {
+    if (pos % 4 == 0) {
         return;
     }
     else {
@@ -130,7 +92,7 @@ void Board::left() {
 
     int pos = blankPosition(this->state);
 
-    if (pos % this->cols == this->cols - 1) {
+    if (pos % 4 == 3) {
         return;
     }
     else {
@@ -143,15 +105,16 @@ void Board::left() {
 void Board::correct() {
     if (!isValid15(this->state)) {
         int temp = this->state[0];
-        this->state[0] = this->state[this->state.size()];
-        this->state[this->state.size()] = temp;
+        this->state[0] = this->state[15];
+        this->state[15] = temp;
     }
 }
 
 bool Board::isSolved() {
+    int sol [16] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0};
 
     for (int i = 0; i < 16; i++) {
-        if (i+1 != this->state[i]) {
+        if (sol[i] != this->state[i]) {
             return false;
         }
     }
@@ -163,31 +126,26 @@ bool Board::isSolved() {
 //     the number of inversions is even AND the blank is on the 2nd or 4th row
 //     the number of inversions is odd AND the blank is on the 1st or 3rd row
 
+bool isValid15(int * state) {
 
-// TO BE REMOVED
-const int COLS = 4;
-
-
-bool isValid15(std::vector<int> state) {
-
-    if (boardInversions(state) % 2 == 0) {
-        if (blankRow(state) % 2 == 0) {
+    if (boardInversions(state)%2 == 0) {
+        if (blankRow(state)%2 == 0) {
             return true;
         }
     }
     else {
-        if (blankRow(state) % 2  != 0) {
+        if (blankRow(state)%2 != 0) {
             return true;
         }
     }
     return false;
 }
 
-int boardInversions(std::vector<int> state) {
+int boardInversions(int * state) {
     int inversions = 0;
     
-    for (int i = 0; i < state.size(); i++) {
-        for (int j = i + 1 ; j < state.size(); j++) {
+    for (int i = 0; i < 16; i++) {
+        for (int j = i + 1 ; j < 16; j++) {
             if (state[i] > state[j]) {
                 if (state[i] * state[j] !=0) {
                     inversions++;
@@ -198,24 +156,28 @@ int boardInversions(std::vector<int> state) {
     return inversions;
 }
 
-int blankRow(std::vector<int> state) {
+int blankRow(int* state) {
     int row = -1;
 
-    for (int i = 0; i < state.size(); i++) {
+    for (int i = 0; i < 16; i++) {
        if (state[i] == 0) {
-           row = i/COLS + 1;
+           row = i/4 + 1;
            break;
        } 
     }
     return row;
 }
 
-int blankPosition(std::vector<int> state) {
+int blankPosition(int* state) {
 
-    for (int i = 0; i < state.size(); i++) {
+    for (int i = 0; i < 16; i++) {
        if (state[i] == 0) {
            return i;
        } 
     }
     return -1;
 }
+
+
+
+
