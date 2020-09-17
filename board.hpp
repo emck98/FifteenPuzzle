@@ -3,10 +3,12 @@
 
 #include <array> 
 
+#define SIZE 16
+
 class Board {
     private:
         int * state;
-        std::array<int, 16> state2;
+        std::array<int, SIZE> state2;
         
 
     public:
@@ -22,22 +24,13 @@ class Board {
 
 };
 
-//std::array<int, 16> state
-// bool isValid15(int * state);
+bool isValid15(std::array<int, SIZE> state);
 
-// int boardInversions(int* state);
+int boardInversions(std::array<int, SIZE> state);
 
-// int blankRow(int* state);
+int blankRow(std::array<int, SIZE> state);
 
-// int blankPosition(int* state);
-
-bool isValid15(std::array<int, 16> state);
-
-int boardInversions(std::array<int, 16> state);
-
-int blankRow(std::array<int, 16> state);
-
-int blankPosition(std::array<int, 16> state);
+int blankPosition(std::array<int, SIZE> state);
 
 char intToChar(int tile);
 

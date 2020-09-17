@@ -18,7 +18,7 @@ void Board::printBoard() {
 
     std::system("clear");
 
-    std::array<int, 16>  arr = this->state2;
+    std::array<int, SIZE>  arr = this->state2;
 
     printBorder();
 
@@ -125,16 +125,9 @@ void Board::left() {
 }
 
 void Board::randomize() {
-    // obtain a time-based seed:
-
-    // unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-
+    
     std::array<int, 16> randomized_array = {2, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0}; 
 
-    // srand(time(0));
-
-    // shuffle(randomized_array.begin(), randomized_array.end(), std::default_random_engine(seed));
- 
     this->state2 = randomized_array;
 
     std::random_device rd;
@@ -142,25 +135,11 @@ void Board::randomize() {
 
     std::shuffle(randomized_array.begin(), randomized_array.end(), rand_gen);
 
-    // int seed;
-    // srand(seed);
-    //std::shuffle(randomized_array.begin(), randomized_array.end(), std::mt19937(seed));
-
     this->state2 = randomized_array;
     
     if (!isValid15(this->state2)) {
         this->correct();
     }
-
-    // unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    
-    // _UniformRandomNumberGenerator &&__g;
-    
-    // d::default_random_engine(seed) );
-
-    // unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-
-    // std::shuffle(this->state2.begin(), this->state2.end(), std::default_random_engine(seed));
 
 }
 
@@ -176,7 +155,7 @@ bool Board::isSolved() {
     int sol [16] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0};
     
 
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < SIZE; i++) {
         if (sol[i] != this->state2[i]) {
             return false;
         }
@@ -184,22 +163,8 @@ bool Board::isSolved() {
     return true;
 }
 
-// bool isValid15(int* state) {
 
-//     if (boardInversions(state)%2 == 0) {
-//         if (blankRow(state)%2 == 0) {
-//             return true;
-//         }
-//     }
-//     else {
-//         if (blankRow(state)%2 != 0) {
-//             return true;
-//         }
-//     }
-//     return false;
-// }
-
-bool isValid15(std::array<int, 16> state) {
+bool isValid15(std::array<int, SIZE> state) {
 
     if (boardInversions(state)%2 == 0) {
         if (blankRow(state)%2 == 0) {
@@ -214,22 +179,7 @@ bool isValid15(std::array<int, 16> state) {
     return false;
 }
 
-// int boardInversions(int* state) {
-//     int inversions = 0;
-    
-//     for (int i = 0; i < 16; i++) {
-//         for (int j = i + 1 ; j < 16; j++) {
-//             if (state[i] > state[j]) {
-//                 if (state[i] * state[j] !=0) {
-//                     inversions++;
-//                 }
-//             }
-//         }
-//     }
-//     return inversions;
-// }
-
-int boardInversions(std::array<int, 16> state) {
+int boardInversions(std::array<int, SIZE> state) {
     int inversions = 0;
     
     for (int i = 0; i < 16; i++) {
@@ -244,17 +194,7 @@ int boardInversions(std::array<int, 16> state) {
     return inversions;
 }
 
-// int blankPosition(int* state) {
-
-//     for (int i = 0; i < 16; i++) {
-//        if (state[i] == 0) {
-//            return i;
-//        } 
-//     }
-//     return -1;
-// }
-
-int blankPosition(std::array<int, 16> state) {
+int blankPosition(std::array<int, SIZE> state) {
 
     for (int i = 0; i < 16; i++) {
        if (state[i] == 0) {
@@ -264,11 +204,7 @@ int blankPosition(std::array<int, 16> state) {
     return -1;
 }
 
-// int blankRow(int* state) {
-//     return blankPosition(state)/4 + 1;
-// }
-
-int blankRow(std::array<int, 16> state) {
+int blankRow(std::array<int, SIZE> state) {
     return blankPosition(state)/4 + 1;
 }
 
