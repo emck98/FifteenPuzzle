@@ -29,7 +29,8 @@ class Board {
         void randomize();
         bool isSolved();
         int ManhattanDistance();
-
+    
+        friend bool operator==(const Board& b1, const Board& b2);
 };
 
 char intToChar(int tile);

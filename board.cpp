@@ -126,6 +126,10 @@ bool Board::isSolved() {
     return this->state[this->state.size() - 1] == 0;
 }
 
+bool operator==(const Board& b1, const Board& b2) {
+    return b1.state == b2.state;
+}
+
 int Board::ManhattanDistance() {
     int sumDistance = 0;
     for (int i = 0; i < this->state.size(); i++) {
