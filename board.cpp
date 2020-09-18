@@ -6,11 +6,11 @@
 
 
 Board::Board(Board &b)
-: state(b.state), width(b.width), height(b.height)
+: state(b.state), width(b.width)
 {}
 
-Board::Board(int height, int width)
-: state(std::vector<int> (height*width)), height(height), width(width) {
+Board::Board(int width)
+: state(std::vector<int> (width*width)), width(width) {
     
     std::iota(this->state.begin(), this->state.end(), 0);
     this->randomize();
@@ -28,7 +28,7 @@ void Board::printBoard() {
 
     printBorder();
 
-    for (int i = 0; i < this->height; i++) {
+    for (int i = 0; i < this->width; i++) {
         for (int j = 0; j < this->width; j++) {
             std::cout << "| ";
             std::cout << intToChar(this->state[i * this->width + j]);

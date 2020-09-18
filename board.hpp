@@ -3,13 +3,11 @@
 
 #include <vector>
 
-#define WIDTH 4
 
 class Board {
     private:
         std::vector<int> state;
         int width;
-        int height;
 
         bool isValid();
         int boardInversions();
@@ -17,7 +15,7 @@ class Board {
         int blankPosition();
 
     public:
-        Board(int height, int width);
+        Board(int width);
         Board(Board &b);
         void printBoard();
         void printBorder();
