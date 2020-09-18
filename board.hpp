@@ -10,10 +10,15 @@ class Board {
         std::vector<int> state;
         int width;
         int height;
-        
+
+        bool isValid();
+        int boardInversions();
+        int blankRow();
+        int blankPosition();
 
     public:
         Board(int height, int width);
+        Board(Board &b);
         void printBoard();
         void printBorder();
         void down();
@@ -23,16 +28,9 @@ class Board {
         void correct();
         void randomize();
         bool isSolved();
+        int ManhattanDistance();
 
 };
-
-bool isValid(std::vector<int> state);
-
-int boardInversions(std::vector<int> state);
-
-int blankRow(std::vector<int> state);
-
-int blankPosition(std::vector<int> state);
 
 char intToChar(int tile);
 

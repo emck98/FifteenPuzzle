@@ -1,4 +1,5 @@
 #include "board.hpp"
+#include "solver.hpp"
 
 #include <stdio.h>
 #include <iostream>
@@ -6,18 +7,18 @@
 
 int main() {
 
-    Board testerBoard(4, 4);
+    Board testerBoard(3, 3);
+    std::cout << "Win in " << solve(testerBoard) << " moves" << std::endl;
 
     char ch;
     do {
 
         testerBoard.printBoard();
-        
         if (testerBoard.isSolved()) {
-            std::cout << "Game over, you won! \n";
+            std::cout << "Game over, you won!" << std::endl;
             return 0;
         }
-        
+
         std::cout << "Press Q to quit and W, A, S, or D to move.\n";
         ch = std::getchar();
 
@@ -40,7 +41,7 @@ int main() {
                 break;
 
         }
-
+        std::system("clear");
     } while (ch != 'Q' && ch!='q');
   
     return 0;

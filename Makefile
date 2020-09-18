@@ -1,4 +1,4 @@
-OBJECTS = fifteen.o board.o
+OBJECTS = fifteen.o board.o solver.o
 
 fifteen: $(OBJECTS)
 	g++ -o fifteen $(OBJECTS)
