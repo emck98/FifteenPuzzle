@@ -10,7 +10,6 @@ class Board {
         int width;
 
         bool isValid();
-        int boardInversions();
         int blankRow();
         int blankPosition();
 
@@ -27,6 +26,7 @@ class Board {
         void randomize();
         bool isSolved();
         int ManhattanDistance();
+        int boardInversions();
     
         friend bool operator==(const Board& b1, const Board& b2);
 };

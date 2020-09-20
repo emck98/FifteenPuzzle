@@ -1,69 +1,85 @@
 #include "solver.hpp"
-#include <queue>
+
 #include <vector>
-#include <unordered_set>
+#include <map>
+#include <array>
 #include <iostream>
 
 
-class h {
-public:
-    bool operator() (const std::pair<Board*, int>* p1,
-                    const std::pair<Board*, int>* p2) {
-        int hStar1 = p1->first->ManhattanDistance() + p1->second;
-        int hStar2 = p2->first->ManhattanDistance() + p2->second;
-        return hStar1 > hStar2;
-    }
-};
-
-using heap = std::priority_queue<
-    std::pair<Board*, int>*,
-    std::vector< std::pair<Board*, int>* >,
-    h>;
+#define FOUND -1
 
 typedef void (Board::*BoardMemFn)(void);
-BoardMemFn f[] = {
+BoardMemFn succFn[] = {
                     &Board::up, &Board::right,
                     &Board::down, &Board::left
 };
 
-
-int aStar(heap& q) {
-    //std::cout << "Done" << std::endl;
-    
-    //std::cout << "Grabbing...";
-    if (q.empty()) return -1;
-    //else std::cout << q.size() << std::endl;
-    const std::pair<Board*, int>* p = q.top();
-    q.pop();
-    Board* b = p->first;
-    int moves = p->second;
-
-    //std::cout << "Done" << std::endl;
-
-    for (int i=0; i < 4; i++) {
-        Board* bprime = new Board(*b);
-        ((bprime)->*(f[i]))();
-        if (bprime->ManhattanDistance() == 0)
-            return moves + 1;
-        else if (! (*bprime == *b)
-                 && b->ManhattanDistance() > bprime->ManhattanDistance())
-        q.push(new std::pair<Board*, int>(bprime, moves+1));
-        ((bprime)->*(f[(i+2) % 4]))();
-    }
-    
-    //std::cout << "Deleting...";
-    delete p;
-    //std::cout << "Done" << std::endl;
-    
-    //std::cout << "Calling Child...";
-    return aStar(q);
+int h(Board* b) {
+    return b->ManhattanDistance() + 2*b->boardInversions();
 }
 
-int solve(Board b) {
-    if (b.ManhattanDistance() == 0) return 0;
-    else {
-        heap q;
-        q.push(new std::pair<Board*, int>(new Board(b), 0));
-        return aStar(q);
+bool member(std::vector<Board*>* v, Board* b) {
+    for (auto iter = v->rbegin(); iter != v->rend(); iter++)
+        if (**iter == *b) return true;
+    return false;
+}
+
+std::array<BoardMemFn, 4> generate(Board* parent) {
+    std::multimap<int, BoardMemFn> children;
+    for (int i = 0; i < 4; i++) {
+        Board* bpStar = new Board(*parent);
+        ((bpStar)->*(succFn[i]))();
+        children.insert(std::make_pair(h(bpStar), succFn[i]));
+        delete bpStar;
     }
+    std::array<BoardMemFn, 4> orderedFns;
+    auto iter = children.begin();
+    for (int i = 0; i < 4; i++) {
+        orderedFns[i] = iter->second;
+        iter++;
+    }
+    return orderedFns;
+}
+
+int IDAStar(std::pair<std::vector<Board*>, int>& p, int bound) {
+    std::vector<Board*>* path = &p.first;
+    Board* bp = path->back();
+    int f = h(bp) + p.second;
+    std::cout << "f: " << bound << std::endl;
+    if (f > bound) return f;
+    else if (h(bp) == 0) return FOUND;
+    else {
+        int min = INT_MAX;
+        std::array<BoardMemFn, 4> fns = generate(bp);
+        p.second++;
+        for(auto fStar = fns.begin(); fStar != fns.end(); fStar++) {
+            Board* bpStar = new Board(*bp);
+            ((bpStar)->*(*fStar))();
+            if (! member(path, bpStar)) {
+                path->push_back(bpStar);
+                int t = IDAStar(p, bound);
+                if (t == FOUND) return FOUND;
+                min = std::min(min, t);
+                path->pop_back();
+                delete bpStar;
+            }
+            else std::cout << "repeat" << std::endl;
+        }
+        return min;
+    }
+}
+
+std::pair<std::vector<Board*>, int> solve(Board b) {
+    int bound = h(&b);
+    std::cout << "Init bd: " << bound << std::endl;
+    Board* bp = new Board(b);
+    std::vector<Board*> path;
+    path.push_back(bp);
+    std::pair<std::vector<Board*>, int> p;
+    while (bound != FOUND) {
+        p = std::make_pair(path, 0);
+        bound = IDAStar(p, bound);
+        // std::cout << bound << std::endl;
+    }
+    return p;
 }

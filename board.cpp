@@ -133,7 +133,8 @@ bool operator==(const Board& b1, const Board& b2) {
 int Board::ManhattanDistance() {
     int sumDistance = 0;
     for (int i = 0; i < this->state.size(); i++) {
-        int tile = this->state[i] == 0 ? this->state.size() : this->state[i];
+        int tile = this->state[i];
+        if (tile == 0) continue;
         int dx = abs(i % this->width - (tile - 1) % this->width);
         int dy = abs(i / this->width - (tile - 1) / this->width);
         sumDistance += dx + dy;

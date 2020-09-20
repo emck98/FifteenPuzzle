@@ -7,10 +7,10 @@
 
 int main() {
 
-    Board testerBoard(2);
+    Board testerBoard(3);
     std::system("clear");
     
-    std::cout << "Win in " << solve(testerBoard) << " moves" << std::endl;
+    std::cout << "Win in " << solve(testerBoard).second << " moves" << std::endl;
 
     char ch;
     do {
