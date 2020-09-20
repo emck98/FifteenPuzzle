@@ -7,8 +7,9 @@
 
 int main() {
 
-    Board testerBoard(3);
+    Board testerBoard(2);
     std::system("clear");
+    
     std::cout << "Win in " << solve(testerBoard) << " moves" << std::endl;
 
     char ch;
