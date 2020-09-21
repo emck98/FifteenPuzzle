@@ -1,39 +1,47 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
 
-#include <array> 
+#include <vector>
 
-#define SIZE 16
-#define WIDTH 4
-#define HEIGHT 4
 
 class Board {
     private:
-        std::array<int, SIZE> state;
+        std::vector<int> state;
+        int width;
         
+
+        // print helper
+        void printBorder() const;
+    
+        // modifiers
+        void randomize();
+        void correct();
+    
+        // validity checking helpers
+        int blankRow() const;
+        int blankPosition() const;
+
     public:
-        Board();
-        void printBoard();
+        Board(int width);
+        Board(Board &b);
+    
+        void printBoard() const;
+    
+        // modifiers
         void down();
         void up();
         void left();
         void right();
-        void correct();
-        void randomize();
-        bool isSolved();
-
+    
+        // metrics
+        int ManhattanDistance() const;
+        int boardInversions() const;
+        bool isSolved() const;
+        bool isValid() const;
+    
+        friend bool operator==(const Board& b1, const Board& b2) { return b1.state == b2.state; }
 };
 
-bool isValid15(std::array<int, SIZE> state);
-
-int boardInversions(std::array<int, SIZE> state);
-
-int blankRow(std::array<int, SIZE> state);
-
-int blankPosition(std::array<int, SIZE> state);
-
 char intToChar(int tile);
-
-void printBorder();
 
 #endif /* BOARD_HPP */

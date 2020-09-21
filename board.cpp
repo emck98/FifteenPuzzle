@@ -2,143 +2,171 @@
 #include <iostream>
 #include <algorithm>
 #include <random> 
-#include <chrono>      
+#include <chrono>
 
 
-Board::Board()
-{
+Board::Board(Board &b)
+: state(b.state), width(b.width)
+{}
+
+Board::Board(int width)
+: state(std::vector<int> (width*width)), width(width) {
+    
     std::iota(this->state.begin(), this->state.end(), 0);
     this->randomize();
 }
 
-void Board::printBoard() {
+void Board::printBorder() const {
+    
+    for (int i = 0; i < this->width; i++) {
+        std::cout << "+---";
+    }
+    std::cout << "+" << std::endl;
+}
 
-    std::system("clear");
+void Board::printBoard() const {
+
     printBorder();
 
-    for (int i = 0; i < HEIGHT; i++) {
-        for (int j = 0; j < WIDTH; j++)
-            std::cout << "| " << intToChar(this->state[i * WIDTH + j]) << " ";
+    for (int i = 0; i < this->width; i++) {
+        for (int j = 0; j < this->width; j++) {
+            std::cout << "| ";
+            std::cout << intToChar(this->state[i * this->width + j]);
+            std::cout << " ";
+        }
         std::cout << "|" << std::endl;
+        
         printBorder();
     }
 }
 
 void Board::down() {
 
-    int pos = blankPosition(this->state);
+    int pos = this->blankPosition();
 
-    if (pos < WIDTH) {
+    if (pos < this->width) {
         return;
     }
     else {
-        state[pos] = state[pos - WIDTH];
-        state[pos - WIDTH] = 0;
+        state[pos] = state[pos - this->width];
+        state[pos - this->width] = 0;
     }
-    
 }
 
 void Board::up() {
 
-    int pos = blankPosition(this->state);
+    int pos = this->blankPosition();
 
-    if (pos > SIZE - WIDTH - 1) {
+    if (pos > this->state.size() - this->width - 1) {
         return;
     }
     else {
-        state[pos] = state[pos + WIDTH];
-        state[pos + WIDTH] = 0;
+        state[pos] = state[pos + this->width];
+        state[pos + this->width] = 0;
     }
-    
 }
 
 void Board::right() {
 
-    int pos = blankPosition(this->state);
+    int pos = blankPosition();
 
-    if (pos % WIDTH == 0) {
+    if (pos % this->width == 0) {
         return;
     }
     else {
         state[pos] = state[pos - 1];
         state[pos - 1] = 0;
     }
-    
 }
 
 void Board::left() {
 
-    int pos = blankPosition(this->state);
+    int pos = blankPosition();
 
-    if (pos % WIDTH == WIDTH - 1) {
+    if (pos % this->width == this->width - 1) {
         return;
     }
     else {
         state[pos] = state[pos + 1];
         state[pos + 1] = 0;
     }
-    
 }
 
 void Board::randomize() {
 
     std::random_device rd;
     std::mt19937 rand_gen(rd());
-
     std::shuffle(this->state.begin(), this->state.end(), rand_gen);
     
-    if (!isValid15(this->state)) {
-        this->correct();
+    while(!this->isValid()) {
+        this->randomize();
     }
-
 }
 
 void Board::correct() {
-    if (!isValid15(this->state)) {
+    
+    if (!this->isValid()) {
+        // swap first and second elements
         int temp = this->state[0];
-        this->state[0] = this->state[SIZE - 1];
-        this->state[SIZE - 1] = temp;
+        this->state[0] = this->state[1];
+        this->state[1] = temp;
     }
 }
 
-bool Board::isSolved() {
+bool Board::isSolved() const {
     
-    for (int i = 0; i < SIZE - 1; i++) {
+    for (int i = 0; i < this->state.size() - 1; i++) {
         if (i+1 != this->state[i]) {
             return false;
         }
     }
-    return this->state[SIZE - 1] == 0;
+    return this->state[this->state.size() - 1] == 0;
 }
 
+int Board::ManhattanDistance() const {
+    int sumDistance = 0;
+    for (int i = 0; i < this->state.size(); i++) {
+        int tile = this->state[i];
+        if (tile == 0) continue;
+        int dx = abs(i % this->width - (tile - 1) % this->width);
+        int dy = abs(i / this->width - (tile - 1) / this->width);
+        sumDistance += dx + dy;
+    }
+    return sumDistance;
+}
 
-
-/*
-    "STATIC" METHODS
- */
-
-bool isValid15(std::array<int, SIZE> state) {
-
-    if (boardInversions(state) % 2 == 0) {
-        if (blankRow(state) % 2 == 0) {
+// Works for N x N boards
+bool Board::isValid() const {
+    // N x N board where N is odd
+    // only board inversions matter
+    if (this->width % 2 != 0) {
+        if (this->boardInversions() % 2 == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    // N x N boards where N is even
+    // board inversion and position of the blank square matter
+    if (this->boardInversions() % 2 == 0) {
+        if (this->blankRow() % 2 == 0) {
             return true;
         }
     }
-    else {
-        if (blankRow(state) % 2 != 0) {
+    else if (this->blankRow() % 2 != 0) {
             return true;
-        }
     }
     return false;
 }
 
-int boardInversions(std::array<int, SIZE> state) {
+int Board::boardInversions() const {
     int inversions = 0;
     
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = i + 1 ; j < SIZE; j++) {
-            if (state[i] > state[j]) {
-                if (state[i] * state[j] !=0) {
+    for (int i = 0; i < this->state.size(); i++) {
+        for (int j = i + 1 ; j < this->state.size(); j++) {
+            if (this->state[i] > this->state[j]) {
+                if (this->state[i] * this->state[j] !=0) {
                     inversions++;
                 }
             }
@@ -147,24 +175,18 @@ int boardInversions(std::array<int, SIZE> state) {
     return inversions;
 }
 
-int blankPosition(std::array<int, SIZE> state) {
+int Board::blankPosition() const {
 
-    for (int i = 0; i < SIZE; i++) {
-       if (state[i] == 0) {
+    for (int i = 0; i < this->state.size(); i++) {
+       if (this->state[i] == 0) {
            return i;
        } 
     }
     return -1;
 }
 
-int blankRow(std::array<int, SIZE> state) {
-    return blankPosition(state)/WIDTH + 1;
-}
-
-std::string border =         "+---+---+---+---+";
-
-void printBorder() {
-    std::cout << border << std::endl;
+int Board::blankRow() const {
+    return this->blankPosition()/this->width + 1;
 }
 
 char intToChar(int tile) {
@@ -174,18 +196,11 @@ char intToChar(int tile) {
     }
     else if (tile < 10) {
         return tile + '0';
-
     }
-    else if (tile < SIZE) {
+    else if (tile > 0) {
         return 'A' + tile - 10;
-
     }
     else {
         return '*';
     }
-
 }
-
-
-
-

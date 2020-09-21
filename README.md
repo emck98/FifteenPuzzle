@@ -1,13 +1,16 @@
 ## FifteenPuzzle
 A command line implementation of the fifteen puzzle game.
 
-### Next features to implement
-Randomized (legal) boards to play, not just the same one over and over <br />
-Screen clearing <br />
+### Next steps
 Accepting arrow keys in addition to WASD <br />
 Better help messages, rules etc <br />
-Count moves <br />
 Clean up code, add comments <br />
+
+### Completed steps
+Randomized (legal) boards to play, not just the same one over and over <br />
+Screen clearing <br />
+Count moves <br />
 
 ## Link
 https://repl.it/@emck98/FifteenPuzzle#board.cpp
+
