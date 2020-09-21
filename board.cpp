@@ -35,6 +35,7 @@ void Board::printBoard() const {
             std::cout << " ";
         }
         std::cout << "|" << std::endl;
+        
         printBorder();
     }
 }
@@ -50,7 +51,6 @@ void Board::down() {
         state[pos] = state[pos - this->width];
         state[pos - this->width] = 0;
     }
-    
 }
 
 void Board::up() {
@@ -64,7 +64,6 @@ void Board::up() {
         state[pos] = state[pos + this->width];
         state[pos + this->width] = 0;
     }
-    
 }
 
 void Board::right() {
@@ -78,7 +77,6 @@ void Board::right() {
         state[pos] = state[pos - 1];
         state[pos - 1] = 0;
     }
-    
 }
 
 void Board::left() {
@@ -92,7 +90,6 @@ void Board::left() {
         state[pos] = state[pos + 1];
         state[pos + 1] = 0;
     }
-    
 }
 
 void Board::randomize() {
@@ -151,7 +148,7 @@ bool Board::isValid() const {
         }
     }
     // N x N boards where N is even
-    // board inversion and postion of the blank square matter
+    // board inversion and position of the blank square matter
     if (this->boardInversions() % 2 == 0) {
         if (this->blankRow() % 2 == 0) {
             return true;
