@@ -101,18 +101,18 @@ void Board::randomize() {
     std::mt19937 rand_gen(rd());
     std::shuffle(this->state.begin(), this->state.end(), rand_gen);
     
-    if (!this->isValid()) {
-        this->correct();
+    while(!this->isValid()) {
+        this->randomize();
     }
-
 }
 
 void Board::correct() {
     
     if (!this->isValid()) {
+        // swap first and second elements
         int temp = this->state[0];
-        this->state[0] = this->state[this->state.size() - 1];
-        this->state[this->state.size() - 1] = temp;
+        this->state[0] = this->state[1];
+        this->state[1] = temp;
     }
 }
 
@@ -142,9 +142,20 @@ int Board::ManhattanDistance() {
         return sumDistance;
 }
 
-
+// Works for N x N boards
 bool Board::isValid() {
-
+    // N x N board where N is odd
+    // only board inversions matter
+    if (this->width % 2 != 0) {
+        if (this->boardInversions() % 2 == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    // N x N boards where N is even
+    // board inversion and postion of the blank square matter
     if (this->boardInversions() % 2 == 0) {
         if (this->blankRow() % 2 == 0) {
             return true;

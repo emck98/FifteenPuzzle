@@ -6,7 +6,7 @@
 #include <iostream>
 
 #define FOUND -1
-#define MAX_DEPTH 100
+#define MAX_DEPTH 10000
 
 typedef void (Board::*BoardMemFn)(void);
 BoardMemFn succFn[] = {
