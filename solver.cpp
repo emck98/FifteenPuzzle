@@ -45,7 +45,6 @@ int IDAStar(std::pair<std::vector<Board*>, int>& p, int bound) {
     std::vector<Board*>* path = &p.first;
     Board* bp = path->back();
     int f = h(bp) + p.second;
-    std::cout << "f: " << bound << std::endl;
     if (f > bound) return f;
     else if (bp->isSolved()) return FOUND;
     else {
@@ -62,8 +61,7 @@ int IDAStar(std::pair<std::vector<Board*>, int>& p, int bound) {
                 min = std::min(min, t);
                 path->pop_back();
             }
-            else std::cout << "repeat" << std::endl;
-            delete bpStar;
+            else delete bpStar;
         }
         return min;
     }
@@ -71,7 +69,6 @@ int IDAStar(std::pair<std::vector<Board*>, int>& p, int bound) {
 
 std::pair<std::vector<Board*>, int> solve(Board b) {
     int bound = h(&b);
-    std::cout << "Init bd: " << bound << std::endl;
     Board* bp = new Board(b);
     std::vector<Board*> path;
     path.push_back(bp);
@@ -79,8 +76,8 @@ std::pair<std::vector<Board*>, int> solve(Board b) {
     while (bound != FOUND && bound < MAX_DEPTH) {
         p = std::make_pair(path, 0);
         bound = IDAStar(p, bound);
-        // std::cout << bound << std::endl;
     }
-    p.first.back()->printBoard();
+    
+    // p.first.back()->printBoard();
     return p;
 }
