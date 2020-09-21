@@ -8,27 +8,37 @@ class Board {
     private:
         std::vector<int> state;
         int width;
-
-        bool isValid();
-        int blankRow();
-        int blankPosition();
+        
+        // validity checking helpers
+        int blankRow() const;
+        int blankPosition() const;
+    
+        // print helper
+        void printBorder() const;
+    
+        // setters
+        void randomize();
+        void correct();
 
     public:
         Board(int width);
         Board(Board &b);
-        void printBoard();
-        void printBorder();
+    
+        void printBoard() const;
+    
+        // modifiers
         void down();
         void up();
         void left();
         void right();
-        void correct();
-        void randomize();
-        bool isSolved();
-        int ManhattanDistance();
-        int boardInversions();
     
-        friend bool operator==(const Board& b1, const Board& b2);
+        // metrics
+        int ManhattanDistance() const;
+        int boardInversions() const;
+        bool isSolved() const;
+        bool isValid() const;
+    
+        friend bool operator==(const Board& b1, const Board& b2) { return b1.state == b2.state; }
 };
 
 char intToChar(int tile);

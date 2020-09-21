@@ -16,7 +16,7 @@ Board::Board(int width)
     this->randomize();
 }
 
-void Board::printBorder() {
+void Board::printBorder() const {
     
     for (int i = 0; i < this->width; i++) {
         std::cout << "+---";
@@ -24,7 +24,7 @@ void Board::printBorder() {
     std::cout << "+" << std::endl;
 }
 
-void Board::printBoard() {
+void Board::printBoard() const {
 
     printBorder();
 
@@ -116,7 +116,7 @@ void Board::correct() {
     }
 }
 
-bool Board::isSolved() {
+bool Board::isSolved() const {
     
     for (int i = 0; i < this->state.size() - 1; i++) {
         if (i+1 != this->state[i]) {
@@ -126,11 +126,7 @@ bool Board::isSolved() {
     return this->state[this->state.size() - 1] == 0;
 }
 
-bool operator==(const Board& b1, const Board& b2) {
-    return b1.state == b2.state;
-}
-
-int Board::ManhattanDistance() {
+int Board::ManhattanDistance() const {
     int sumDistance = 0;
     for (int i = 0; i < this->state.size(); i++) {
         int tile = this->state[i];
@@ -139,11 +135,11 @@ int Board::ManhattanDistance() {
         int dy = abs(i / this->width - (tile - 1) / this->width);
         sumDistance += dx + dy;
     }
-        return sumDistance;
+    return sumDistance;
 }
 
 // Works for N x N boards
-bool Board::isValid() {
+bool Board::isValid() const {
     // N x N board where N is odd
     // only board inversions matter
     if (this->width % 2 != 0) {
@@ -167,7 +163,7 @@ bool Board::isValid() {
     return false;
 }
 
-int Board::boardInversions() {
+int Board::boardInversions() const {
     int inversions = 0;
     
     for (int i = 0; i < this->state.size(); i++) {
@@ -182,7 +178,7 @@ int Board::boardInversions() {
     return inversions;
 }
 
-int Board::blankPosition() {
+int Board::blankPosition() const {
 
     for (int i = 0; i < this->state.size(); i++) {
        if (this->state[i] == 0) {
@@ -192,7 +188,7 @@ int Board::blankPosition() {
     return -1;
 }
 
-int Board::blankRow() {
+int Board::blankRow() const {
     return this->blankPosition()/this->width + 1;
 }
 
