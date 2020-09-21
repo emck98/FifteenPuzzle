@@ -5,8 +5,8 @@
 #include <array>
 #include <iostream>
 
-
 #define FOUND -1
+#define MAX_DEPTH 100
 
 typedef void (Board::*BoardMemFn)(void);
 BoardMemFn succFn[] = {
@@ -47,7 +47,7 @@ int IDAStar(std::pair<std::vector<Board*>, int>& p, int bound) {
     int f = h(bp) + p.second;
     std::cout << "f: " << bound << std::endl;
     if (f > bound) return f;
-    else if (h(bp) == 0) return FOUND;
+    else if (bp->isSolved()) return FOUND;
     else {
         int min = INT_MAX;
         std::array<BoardMemFn, 4> fns = generate(bp);
@@ -61,9 +61,9 @@ int IDAStar(std::pair<std::vector<Board*>, int>& p, int bound) {
                 if (t == FOUND) return FOUND;
                 min = std::min(min, t);
                 path->pop_back();
-                delete bpStar;
             }
             else std::cout << "repeat" << std::endl;
+            delete bpStar;
         }
         return min;
     }
@@ -76,10 +76,11 @@ std::pair<std::vector<Board*>, int> solve(Board b) {
     std::vector<Board*> path;
     path.push_back(bp);
     std::pair<std::vector<Board*>, int> p;
-    while (bound != FOUND) {
+    while (bound != FOUND && bound < MAX_DEPTH) {
         p = std::make_pair(path, 0);
         bound = IDAStar(p, bound);
         // std::cout << bound << std::endl;
     }
+    p.first.back()->printBoard();
     return p;
 }
