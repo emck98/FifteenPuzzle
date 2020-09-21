@@ -196,10 +196,11 @@ char intToChar(int tile) {
     }
     else if (tile < 10) {
         return tile + '0';
-    else if (tile > 0)
+    }
+    else if (tile > 0) {
         return 'A' + tile - 10;
     }
     else {
         return '*';
     }
-
+}
