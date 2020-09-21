@@ -8,11 +8,12 @@
 int main() {
 
     Board testerBoard(3);
-    std::system("clear");
-    int minMoves = solve(testerBoard).second;
     
-    int ch, moveNo = 1;
+    int ch, moveNo = 1, minMoves = solve(testerBoard).second;
+    
     do {
+        
+        std::system("clear");
         
         std::cout << "Win in " << minMoves << " moves!" << std::endl;
         testerBoard.printBoard();
@@ -21,7 +22,7 @@ int main() {
             std::cout << "Game over, you won!" << std::endl;
             return 0;
         }
-
+        
         std::cout << "Press Q to quit and W, A, S, or D to move.\n";
         std::cout << "Move " << moveNo << ": ";
         
@@ -48,8 +49,9 @@ int main() {
             default:
                 continue;
         }
+        
         moveNo++;
-        std::system("clear");
+        
     } while (ch != 'Q' && ch!='q');
   
     return 0;
