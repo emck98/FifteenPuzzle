@@ -11,7 +11,6 @@ class Board {
     private:
         std::array<int, SIZE> state;
         
-
     public:
         Board();
         void printBoard();
