@@ -9,16 +9,16 @@ class Board {
         std::vector<int> state;
         int width;
         
-        // validity checking helpers
-        int blankRow() const;
-        int blankPosition() const;
-    
         // print helper
         void printBorder() const;
     
-        // setters
+        // modifiers
         void randomize();
         void correct();
+    
+        // validity checking helpers
+        int blankRow() const;
+        int blankPosition() const;
 
     public:
         Board(int width);
