@@ -9,6 +9,7 @@ class Board {
         std::vector<int> state;
         int width;
         
+
         // print helper
         void printBorder() const;
     

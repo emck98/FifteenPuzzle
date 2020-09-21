@@ -2,7 +2,6 @@
 A command line implementation of the fifteen puzzle game.
 
 ### Next steps
-
 Accepting arrow keys in addition to WASD <br />
 Better help messages, rules etc <br />
 Clean up code, add comments <br />
@@ -11,3 +10,7 @@ Clean up code, add comments <br />
 Randomized (legal) boards to play, not just the same one over and over <br />
 Screen clearing <br />
 Count moves <br />
+
+## Link
+https://repl.it/@emck98/FifteenPuzzle#board.cpp
+

@@ -191,12 +191,15 @@ int Board::blankRow() const {
 
 char intToChar(int tile) {
     
-    if (tile == 0)
+    if (tile == 0) {
         return ' ';
-    else if (tile < 10)
+    }
+    else if (tile < 10) {
         return tile + '0';
     else if (tile > 0)
         return 'A' + tile - 10;
-    else
+    }
+    else {
         return '*';
-}
+    }
+
